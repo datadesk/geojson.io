@@ -3,19 +3,10 @@ module.exports = function(context) {
     return function(selection) {
 
         var layers = [{
-            title: 'MapBox',
-            layer: L.mapbox.tileLayer('tmcw.map-7s15q36b', {
-                detectRetina: true
-            })
-        }, {
-            title: 'Satellite',
-            layer: L.mapbox.tileLayer('tmcw.map-j5fsp01s', {
-                detectRetina: true
-            })
-        }, {
-            title: 'OSM',
-            layer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            title: 'Quiet LA',
+            layer: L.tileLayer('http://{s}.latimes.com/quiet-la-0.4.0/{z}/{x}/{y}.png', {
+                attribution: 'Map data: (c) <a href="http://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>.</div>',
+                subdomains: ['tiles1','tiles2','tiles3','tiles4']
             })
         }];
 
