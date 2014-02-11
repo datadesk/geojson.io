@@ -1,14 +1,17 @@
 var importPanel = require('./import'),
     githubBrowser = require('github-file-browser')(d3),
+    qs = require('qs-hash'),
     detectIndentationStyle = require('detect-json-indent');
 
 module.exports = function(context) {
 
     function render(selection) {
 
-        selection.select('.right.overlay').remove();
+        selection
+            .select('.right.overlay').remove();
 
-        var panel = selection.append('div')
+        var panel = selection
+            .append('div')
             .attr('class', 'right overlay');
 
         var sources = [{

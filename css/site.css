@@ -387,10 +387,7 @@ textarea.full-width {
 
 .share .network, .download .action {
     margin-right:10px;
-}
-
-.download .action {
-    cursor: pointer;
+    cursor:pointer;
 }
 
 .share .icon-remove, .download .icon-remove {
@@ -401,7 +398,7 @@ textarea.full-width {
     .file-bar .button-wrap button span.title {
         display:none;
     }
-    .map {
+    .share, .download, .map {
         right:50%;
     }
     .right {
@@ -435,6 +432,10 @@ body.dragover:after {
     text-align:center;
 }
 
+.overlay {
+    z-index:999;
+}
+
 /*
  * GitHub Browser -------------------------------------------------------------
  */
@@ -445,4 +446,31 @@ body.dragover:after {
 .repos .item button {
     font-weight: bold;
     margin-left: 10px;
+}
+
+/*
+ * Help -----------------------------------------------------------------------
+ */
+.prose h2 {
+    font-weight:bold;
+    font-size:18px;
+}
+.prose h3 {
+    font-weight:bold;
+    margin-top:10px;
+}
+.prose ul {
+    margin:20px 0;
+    border:1px solid #ccc;
+}
+.prose ul li {
+    line-height:200%;
+    padding:5px 5px;
+    border-top:1px solid #ccc;
+}
+.prose ul li:first-child {
+    border-top:none;
+}
+.prose strong {
+    font-weight:bold;
 }

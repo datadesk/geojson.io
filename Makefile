@@ -15,6 +15,7 @@ dist/d3.js: node_modules node_modules/d3/*
 	$(SMASH) node_modules/d3/src/start.js \
 		node_modules/d3/src/arrays/entries.js \
 		node_modules/d3/src/arrays/set.js \
+		node_modules/d3/src/arrays/pairs.js \
 		node_modules/d3/src/arrays/range.js \
 		node_modules/d3/src/behavior/drag.js \
 		node_modules/d3/src/core/rebind.js \
@@ -40,7 +41,6 @@ dist/lib.js: dist dist/d3.js $(LIBS)
 	cat dist/d3.js \
 		lib/blob.js \
 		lib/base64.js \
-		lib/csv2geojson.js \
 		lib/geocodemany.js \
 		lib/bucket.js \
 		lib/queue.js \
@@ -50,8 +50,7 @@ dist/lib.js: dist dist/d3.js $(LIBS)
 		lib/d3-tooltip.js \
 		lib/draw/leaflet.draw-src.js \
 		lib/codemirror/lib/codemirror.js \
-		lib/codemirror/mode/javascript/javascript.js \
-		lib/FileSaver.min.js > dist/lib.js
+		lib/codemirror/mode/javascript/javascript.js > dist/lib.js
 
 dist/delegate.js: src/delegate.js
 	$(BROWSERIFY)  src/delegate.js > dist/delegate.js

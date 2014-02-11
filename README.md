@@ -9,10 +9,16 @@ A fast, simple editor for map data. Read more on [MapBox](http://www.mapbox.com/
 
 ## Goes Great With!
 
+**Tools**
+
 * [Using geojson.io with GitHub is better with the Chrome Extension](https://chrome.google.com/webstore/detail/geojsonio/oibjgofbhldcajfamjganpeacipebckp)
 * [geojsonio-cli](https://github.com/mapbox/geojsonio-cli) lets you shoot geojson from your terminal to geojson.io! (with nodejs)
 * [geojsonio.py](https://github.com/jwass/geojsonio.py) lets you shoot geojson from your terminal to geojson.io! (with python)
 * [reproject](https://github.com/perliedman/reproject) reprojects geojson on the fly, and then you can pipe to geojson.io!
+
+**Sites**
+
+* [GitSpatial](http://gitspatial.com/) makes GeoJSON on GitHub more like an API
 
 ## Development
 
@@ -42,7 +48,7 @@ This is made up of small reusable chunks:
 * <a href='http://github.com/mapbox/geocode-many'>mapbox/geocode-many</a>
 * <a href='http://github.com/mapbox/csv2geojson'>mapbox/csv2geojson</a>
 * <a href='http://github.com/mapbox/togeojson'>mapbox/togeojson</a>
-* <a href='https://github.com/aaronlidman/osm-and-geojson'>aaronlidman/osm-and-geojson</a>
+* <a href='https://github.com/tyrasd/osmtogeojson'>tyrasd/osmtogeojson</a>
 
 ## See Also
 

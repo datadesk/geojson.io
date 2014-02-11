@@ -1,6 +1,6 @@
 var popup = require('../lib/popup'),
     customHash = require('../lib/custom_hash.js'),
-    qs = require('../lib/querystring.js');
+    qs = require('qs-hash');
     writable = false;
 
 
@@ -24,7 +24,10 @@ module.exports = function(context, readonly) {
               draw: {
                   circle: false,
                   polyline: { metric: navigator.language !== 'en-US' },
-                  polygon: { metric: navigator.language !== 'en-US' }
+                  polygon: { metric: navigator.language !== 'en-US' },
+                  marker: {
+                      icon: L.mapbox.marker.icon({})
+                  }
               }
           }).addTo(context.map);
 
@@ -71,7 +74,12 @@ module.exports = function(context, readonly) {
 
 function geojsonToLayer(geojson, layer) {
     layer.clearLayers();
-    L.geoJson(geojson).eachLayer(add);
+    L.geoJson(geojson, {
+        pointToLayer: function(feature, latlon) {
+            if (!feature.properties) feature.properties = {};
+            return L.mapbox.marker.style(feature, latlon);
+        }
+    }).eachLayer(add);
     function add(l) {
         bindPopup(l);
         l.addTo(layer);
@@ -80,7 +88,9 @@ function geojsonToLayer(geojson, layer) {
 
 function bindPopup(l) {
 
-    var properties = l.toGeoJSON().properties, table = '';
+    var properties = l.toGeoJSON().properties,
+        table = '',
+        info = '';
 
     if (!properties) return;
 
@@ -91,7 +101,21 @@ function bindPopup(l) {
             '<td><input type="text" value="' + properties[key] + '"' + (!writable ? ' readonly' : '') + ' /></td></tr>';
     }
 
+    if (l.feature && l.feature.geometry) {
+        if (l.feature.geometry.type === 'LineString') {
+            var total = d3.pairs(l.feature.geometry.coordinates).reduce(function(total, pair) {
+                return total + L.latLng(pair[0][0], pair[0][1])
+                    .distanceTo(L.latLng(pair[1][0], pair[1][1]));
+            }, 0);
+            info += '<div>Length: ' + total.toFixed(2) + ' m</div>';
+        } else if (l.feature.geometry.type === 'Point') {
+            info += '<div>Latitude: ' + l.feature.geometry.coordinates[1].toFixed(2) + '</div>' +
+                '<div>Longitude: ' + l.feature.geometry.coordinates[0].toFixed(2) + '</div>';
+        }
+    }
+
     var content = '<div class="clearfix">' +
+        '<div class="marker-info">' + info + ' </div>' +
         '<div class="marker-properties-limit"><table class="marker-properties">' + table + '</table></div>' +
         (writable ? '<br /><div class="clearfix col12">' +
             '<div class="buttons-joined fl"><button class="add major">add row</button> ' +

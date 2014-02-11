@@ -1,4 +1,4 @@
-var qs = require('../lib/querystring'),
+var qs = require('qs-hash'),
     zoomextent = require('../lib/zoomextent'),
     flash = require('../ui/flash');
 
@@ -17,7 +17,43 @@ module.exports = function(context) {
         }
 
         context.data.parse(d);
-        zoomextent(context);
+
+        if (!qs.stringQs(location.hash.substring(1)).map || mapDefault()) {
+            zoomextent(context);
+        }
+    }
+
+    function mapDefault() {
+        return context.map.getZoom() == 2 || context.map.getCenter().equals(new L.LatLng(20, 0));
+    }
+
+    function inlineJSON(data) {
+        try {
+            context.data.set({
+                map: JSON.parse(data)
+            });
+            location.hash = '';
+            zoomextent(context);
+        } catch(e) {
+            return flash(context.container, 'Could not parse JSON');
+        }
+    }
+
+    function loadUrl(data) {
+        d3.json(data)
+            .on('load', onload)
+            .on('error', onerror)
+            .get();
+
+        function onload(d) {
+            context.data.set({ map: d });
+            location.hash = '';
+            zoomextent(context);
+        }
+
+        function onerror() {
+            return flash(context.container, 'Could not load external file. External files must be served with CORS and be valid GeoJSON.');
+        }
     }
 
     return function(query) {
@@ -27,14 +63,13 @@ module.exports = function(context) {
             context.data.get('route');
 
         if (query.data) {
-            context.container.select('.map').classed('loading', true);
-            try {
-                context.data.set({ map: JSON.parse(query.data.replace('data:application/json,', '')) });
-                context.container.select('.map').classed('loading', false);
-                location.hash = '';
-                zoomextent(context);
-            } catch(e) {
-                return flash(context.container, 'Could not parse JSON');
+            var type = query.data.match(/^(data\:[\w\-]+\/[\w\-]+\,?)/);
+            if (type) {
+                if (type[0] == 'data:application/json,') {
+                    inlineJSON(query.data.replace(type[0], ''));
+                } else if (type[0] == 'data:text/x-url,') {
+                    loadUrl(query.data.replace(type[0], ''));
+                }
             }
         } else if (query.id !== oldRoute) {
             context.container.select('.map').classed('loading', true);
