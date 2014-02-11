@@ -1,4 +1,4 @@
-# geojson.io
+# latimes-geojson.io
 
 ### Follow [@geojsonio](https://twitter.com/geojsonio) to keep up with geojson.io's evolution
 
