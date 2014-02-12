@@ -9,9 +9,16 @@ module.exports = function(context, readonly) {
     writable = !readonly;
 
     function map(selection) {
-
-        context.map = L.mapbox.map(selection.node())
-            .setView([20, 0], 2)
+        var mapOptions = {
+            maxZoom:16,
+            minZoom:8,
+            maxBounds: L.latLngBounds(
+                [36.1912, -112.044],
+                [31.5037, -122.3272]
+            )
+        };
+        context.map = L.mapbox.map(selection.node(), null, mapOptions)
+            .setView([34.04, -118.35], 9)
             .addControl(L.mapbox.geocoderControl('tmcw.map-u4ca5hnt'));
 
         L.hash(context.map);
