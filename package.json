@@ -28,7 +28,7 @@
     "qs-hash": "0.0.0",
     "tokml": "0.2.2",
     "geojson2dsv": "0.0.0",
-    "leaflet-image": "0.0.3"
+    "leaflet-image": "https://github.com/mapbox/leaflet-image/archive/gh-pages.tar.gz"
   },
   "devDependencies": {
     "expect.js": "~0.2.0",
